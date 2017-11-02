@@ -1,0 +1,29 @@
+'
+' This is a model of 1 billion year decay of U-238.
+'
+=origen
+case{
+    % use ENDF/VII-based decay library
+    lib{ file="end7dec" }
+    % create material with 1 gram U-238
+    mat{
+        units=grams
+        iso=[u238=1.0]
+    }
+    % use time block to change units from days
+    time{
+        units=years
+        t=[20L 1 1e9]
+    }
+    % print out by nuclide and element in grams and curies
+    print{
+        nuc{ units=[grams curies] }
+        ele{ units=[grams curies] }
+    }
+    % save binary results file with all steps
+    save{
+        file="u238.f71"
+        steps=ALL %if you just wanted first and last you could do steps=[0 LAST]
+    }
+}
+end

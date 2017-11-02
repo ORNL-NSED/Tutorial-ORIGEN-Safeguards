@@ -1,0 +1,32 @@
+'
+' This is an ORIGAMI input for a Westinghouse 17x17 
+' assembly-averaged isotopics calculation with 30 GWd/MTU burnup.
+'
+'
+=origami
+  %descriptive title
+  title="Westinghouse 17x17 @ 30 GWd/MTU burnup and 0,10 years decay"
+
+  %various options
+  options{ 
+    mtu=1.0     %total initial heavy metal in assembly
+    ft71=cycle  %which time points to include in ft71 file
+  }
+
+  %array of reactor libraries
+  libs=[ "w17x17" ]
+ 
+  %fuel compositions
+  fuelcomp{
+    uox(fuel){ enrich=4.5 }
+    mix(1){ comps=[ fuel=100 ] }
+  }
+
+  %operating history list 
+  hist[
+    cycle{ power=40 burn=750 nlib=8 down=0 } %30000/40 -> 750
+    cycle{ down=3653 }
+  ]
+
+end
+ 

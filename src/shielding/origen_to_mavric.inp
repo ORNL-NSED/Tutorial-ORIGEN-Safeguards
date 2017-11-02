@@ -1,0 +1,260 @@
+
+'***********************************************************************
+' Simple model of fresh PWR fuel, irradiated for 3 cycles of 505 days
+' with 42 day refueling outages, followed by a ten year cooling period.
+' Fresh fuel mass represents an entire core for Kewaunee.
+'
+'***********************************************************************
+
+=origami
+  %various options
+  options{ 
+    mtu=46.1    %a full core's worth of heavy metal
+    ft71=last   %which time points to include in ft71 file
+  }
+
+  %array of reactor libraries
+  libs=[ "w17x17" ]
+ 
+  %fuel compositions
+  fuelcomp{
+    uox(fuel){ enrich=4.2 }
+    mix(1){ comps=[ fuel=100 ] }
+  }
+
+  %operating history list 
+  hist[
+    cycle{ power=40 burn=505 nlib=4 down=42 } 
+    cycle{ power=40 burn=505 nlib=4 down=42 } 
+    cycle{ power=40 burn=505 nlib=4 down=0 } 
+  ]
+
+end
+
+'=======================================================================
+' ORIGEN for irradation and decay
+'=======================================================================
+=origen
+bounds{
+    neutron="v7-27n19g"
+    gamma="v7-27n19g"
+}
+case{
+    title="Decay 10 years"
+    lib{ file="end7dec" }
+    mat{ load{ file="origen_to_mavric.f71" pos=1 } }
+    time{
+        units=YEARS
+        t=[8L 0.1 10]
+    }
+    save {file="sources_for_mavric.f71" steps=[LAST]}
+    neutron=yes
+    gamma=yes
+}
+end
+
+'*******************************************************************************
+'
+' Based on
+'     D. E. Peplow and J. C. Wagner
+'     "Simultaneous Optimization of Tallies in Difficult Shielding Problems,"
+'     Transactions of the 11th International Conference on Radiation Shielding
+'     (ICRS-11) and the 15th Topical Meeting of the Radiation Protection and
+'     Shielding Division (RPSD-2008) of the American Nuclear Society p. 29,
+'     Pine Mountain, GA, April, 2008.
+'
+' Simplfied model of a ISFSI (Independent Spent Fuel Storage Installation)
+'*******************************************************************************
+
+
+'===============================================================================
+' Basic MAVRIC Sequence items: title and SCALE Library
+'===============================================================================
+=mavric
+ISFSI - forward-weighted adjoint using photon dose response
+v7-27n19g
+
+'-------------------------------------------------------------------------------
+' Composition Block - standard SCALE input
+'-------------------------------------------------------------------------------
+read composition
+    wtptFuel   1 0.913717475 18         6000  0.00939719    7014  0.00528993
+                    8016  9.73397641   13000  0.00715715   14000  0.01031670
+                   15000  0.02227505   22000  0.00780567   24000  0.36655141
+                   25000  0.01716839   26000  0.72041451   27000  0.00523824
+                   28000  0.68955526   40000 15.78990702   41000  0.05130153
+                   42000  0.02844690   50118  0.25877903   92235  3.03560962
+                   92238 69.24080999
+                 1.0 293.0 end
+    orconcrete 2 1.0 293.0 end
+    ss304      3 1.0 293.0 end
+    dry-air    4 1.0 293.0 end
+    wtptSoil   5 1.685 12  1000 3.498   6000  2.138   8016 60.826  11000 0.579
+                          13000 7.489  14000 18.841  17000  0.026  19000 0.582
+                          20000 0.896  22000  0.488  25000  0.097  26000 4.540
+                 1.0 293.0 end
+end composition
+
+'-------------------------------------------------------------------------------
+' Geometry Block - SCALE standard geometry package (SGGP)
+'-------------------------------------------------------------------------------
+read geometry
+  unit  1
+    zcylinder  1   90.0  228.6 -228.6
+    zcylinder  2   90.0  240.6 -240.6
+    zcylinder  3   90.0  280.6 -280.6
+    zcylinder  4   95.0  280.6 -280.6
+    zcylinder  5  100.0  280.6 -280.6
+    zcylinder  6  168.0  280.6 -280.6
+    zcylinder  7  170.0  280.6 -280.6
+    zcylinder  8  170.0  285.6 -285.6
+    cuboid    11  170  90 30 -30   280.6 255.6
+    cuboid    12  30 -30 170 90    280.6 255.6
+    cuboid    13  -90 -170 30 -30  280.6 255.6
+    cuboid    14  30 -30 -90 -170  280.6 255.6
+    cuboid    21  170  90 30 -30   -255.6 -280.6
+    cuboid    22  30 -30 170 90    -255.6 -280.6
+    cuboid    23  -90 -170 30 -30  -255.6 -280.6
+    cuboid    24  30 -30 -90 -170  -255.6 -280.6
+    cuboid    99  340.0 -340.0   340.0 -340.0   285.6 -285.6
+    media  1    1   1
+    media  3    1   2 -1
+    media  2    1   3 -2
+    media  4    1   4 -3
+    media  3    1   5 -4  -11 -12 -13 -14  -21 -22 -23 -24
+    media  2    1   6 -5  -11 -12 -13 -14  -21 -22 -23 -24
+    media  3    1   7 -6  -11 -12 -13 -14  -21 -22 -23 -24
+    media  3    1   8 -7
+    media  4    1   11 -4 7
+    media  4    1   12 -4 7
+    media  4    1   13 -4 7
+    media  4    1   14 -4 7
+    media  4    1   21 -4 7
+    media  4    1   22 -4 7
+    media  4    1   23 -4 7
+    media  4    1   24 -4 7
+    media  4    1   99 -8
+  boundary 99
+  global unit 2
+    cuboid 1   1360 -1360      680 -680       571.2    0.0
+    cuboid 2   2040 -2040     1360 -1360        0.0  -60.0
+    cuboid 3  12000 -12000   12000 -12000       0.0 -100.0
+    cuboid 4  12000 -12000   12000 -12000   10000.0 -100.0
+    array 10 1 place 1 1 1  -1020 -340 285.6
+    media  2  1   2
+    media  5  1   3 -2
+    media  4  1   4 -3 -1
+  boundary 4
+end geometry
+
+'-------------------------------------------------------------------------------
+' Geometry Array Block - SGGP
+'-------------------------------------------------------------------------------
+read array
+    ara=10 nux=4 nuy=2 nuz=1  fill 1 1 1 1   1 1 1 1   end fill
+end array
+
+'-------------------------------------------------------------------------------
+' Definitions Block
+'-------------------------------------------------------------------------------
+read definitions
+    response 6
+        specialDose=9504
+    end response
+    gridGeometry 3
+        title="exercise geometry 68x44x24 = 71808"
+        xplanes -12000 -10000 -8000 -6000 -4000 -3000
+                -2040 -1870 -1700 -1530
+                -1360 -1275 -1190 -1150 -1110 -1070 -1020 -970 -930 -890 -850 -765
+                -680 -595 -510 -470 -430 -390 -340 -290 -250 -210 -170 -85
+                0 85 170 210 250 290 340 390 430 470 510 595 680
+                765 850 890 930 970 1020 1070 1110 1150 1190 1275 1360
+                1530 1700 1870 2040
+                3000 4000 6000 8000 10000 12000 end
+        yplanes -12000 -10000 -8000 -6000 -4000 -2000
+                -1360 -1190 -1020 -850
+                -680 -595 -510 -470 -430 -390 -340 -290 -250 -210 -170 -85
+                0 85 170 210 250 290 340 390 430 470 510 595 680
+                850 1020 1190 1360
+                2000 4000 6000 8000 10000 12000 end
+        zplanes -100 -50 -30 -15 0 25 50 75 100 200 300 400 500 570 600 800
+                900 1000 1500 2000 3000 4000 6000 8000 10000 end
+    end gridGeometry
+    gridGeometry 4
+        title="large voxels for mesh tally"
+        xLinear 24 -12000.0 12000.0
+        yLinear 24 -12000.0 12000.0
+        zLinear  1      0.0   200.0
+    end gridGeometry
+    distribution 1
+'       use result from ORIGEN (position 1), master photon library
+        special="origensBinaryConcentrationFile"
+        filename="sources_for_mavric.f71"
+        parameters 1 5 end
+    end distribution
+end definitions
+
+'-------------------------------------------------------------------------------
+' Sources Block - fission product photons
+'   whole core is 4.293E+17 photons/sec, so total source is
+'   S = (8 casks) * (4.293e17 photos/sec/core) / (6 casks/core)
+'     = 5.724e17 photons/sec
+'-------------------------------------------------------------------------------
+read sources
+    src 1
+        title="each cask holds 1/6 of kewaunee core"
+        strength=5.724e17
+        cuboid -1115 1115  435 -435  514.2  57
+        mixture=1
+        photons
+        eDistributionID=1
+    end src
+end sources
+
+'-------------------------------------------------------------------------------
+' Tallies Block
+'-------------------------------------------------------------------------------
+read tallies
+    meshTally 1
+        title="120m from cask array center"
+        photon
+        gridGeometryID=4
+        responseID=6
+    end meshTally
+end tallies
+
+'-------------------------------------------------------------------------------
+' Parameters Block
+'-------------------------------------------------------------------------------
+read parameters
+    randomSeed=8655740521000041
+
+    noNeutrons  photons
+
+'   speed things up for the sample problem
+    perBatch=1000000  batches=20
+end parameters
+
+'-------------------------------------------------------------------------------
+' Importance Map Block
+'-------------------------------------------------------------------------------
+read importanceMap
+    gridGeometryID=3
+    adjointSource 1
+        boundingBox 12000 -12000   12000 -12000  600.0 0.0
+        responseID=6
+        unit=2 region=3
+    end adjointSource
+    respWeighting
+    macroMaterial
+        mmTolerance=0.001
+    end macroMaterial
+    saveExtraMaps
+
+'   speed things up for the sample problem
+    polarsPerOct=2  azimuthsPerOct=2
+    legendre=0
+end importanceMap
+
+end data
+end

@@ -1,0 +1,42 @@
+'
+' This is an example of importing isotopics from an
+' existing f71 file to "restart" a calculation. In
+' this case, the f71 comes from an ORIGAMI calculation.
+'
+
+' Need a shell to copy w17_ax.assm.f71 from input directory
+' to temporary directory.
+'   NOTE: it is good practice to quote paths with variables like
+'   ${INPDIR} in case they contain spaces.
+=shell
+  cp "${INPDIR}/w17_ax.assm.f71" .
+end
+
+=origen
+case{
+    % use ENDF/VII-based decay library
+    lib{ file="end7dec" }
+
+    % load material from file
+    mat{
+        load{ file="w17_ax.assm.f71" pos=4 }
+        % pos is the location on the f71 file
+        % to load from. We are loading the 
+        % assembly total from a 3-axial node
+        % *.assm.f71 from ORIGAMI at the 4 position.
+    }
+
+    time=[20L 1. 7300.] %decay 20 years with logarithmically spaced steps
+
+    save{ file="restart_decay.f71" steps=ALL }
+    %NOTE: could use "save=yes" which is a simple option to save to file=ft71f001 
+    %      convenient because this is what opus expects by default
+}
+end
+
+'make an opus plot of plutonium weight percent of isotopes in each element
+=opus
+  data="restart_decay.f71"
+  symnuc= pu end
+  units=wpelem
+end

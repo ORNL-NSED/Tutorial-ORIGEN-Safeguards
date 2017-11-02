@@ -1,0 +1,50 @@
+'
+' This is an ORIGAMI input for a Westinghouse 17x17 
+' assembly-averaged isotopics calculation.
+'
+'
+=origami
+  %descriptive title
+  title="Westinghouse 17x17"
+
+  %various options
+  options{ 
+    mtu=1.0   %total initial heavy metal in assembly
+    ft71=all  %which time points to include in ft71 file
+    %mcnp=yes  %output some mcnp input
+  }
+
+  %array of reactor libraries
+  libs=[ "w17x17" ]
+  % NOTE: libraries used in each "radial" location defaults to libmap=[1]
+  % where 1 is the index in libs
+
+  %fuel compositions
+  fuelcomp{
+    uox(fuel){ enrich=4.5 }
+    %mixture 1 is 100 wt% uranium oxide at 4.5% enrichment
+    mix(1){ comps=[ fuel=100 ] }
+  }
+
+  %single axial node moderator density (g/cc)
+  modz=[ 0.7332 ]
+  
+  %single axial node power
+  pz=[ 1.0 ]
+  
+  %operating history list
+  hist[
+    %        W/gIHM        days    #xs       days
+    cycle{ power=40 burn=333.33 nlib=4 down=16.67 }
+    cycle{ power=40 burn=333.33 nlib=4 down=16.67 }
+    cycle{ power=40 burn=333.33 nlib=4 down=0 }
+    cycle{ down=1825 }
+  ]
+  % NOTE: nlib is the number of cross section burnup interpolations per cycle
+
+end
+
+'NOTE: running this calculation will generate f71 files
+' - fuel.71: nlib=4 * 3 cycles + 3 downs = 15 states
+' - fuel.assm.f71: 1 axial zone + 1 total = 2 states
+

@@ -1,0 +1,16 @@
+'
+' This is a simple decay starter input. We don't expect 
+' much to happen with U-238 in 1 day...
+'
+=origen
+case{
+    % use ENDF/VII-based decay library
+    lib{ file="end7dec" }
+    % create material with 1 gram U-238
+    mat{
+        units=grams
+        iso=[u238=1.0]
+    }
+    time=[1.0] % default units in days
+}
+end

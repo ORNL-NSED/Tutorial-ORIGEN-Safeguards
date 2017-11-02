@@ -1,0 +1,81 @@
+'
+' This is a model of neutron emission in plutonium oxide (PuO2) 
+' showing importance of the (alpha,n) component of the neutron
+' decay source.
+'
+=origen
+bounds{
+    neutron="xn252v7.1" %take neutron group structure from this library
+    gamma="xn28g19v7.1" %take gamma group structure from this library
+}
+case{
+    % use ENDF/VII-based decay library
+    lib{ file="end7dec" }
+
+    % create plutonium oxide as 1g Pu 0.13g O
+    mat{
+        units=GRAMS
+        iso=[
+            o=0.13      % natural oxygen
+                        % Pu isotopics given in terms of wt% (divide by 100 for 1g Pu)
+            pu238=0.006 %  0.6 wt%
+            pu239=0.704 % 70.4 wt%
+            pu240=0.180 % 18.0 wt%
+            pu241=0.090 %  9.0 wt%
+            pu242=0.020 %  2.0 wt%
+        ]
+    }
+
+    % decay to 1.0 years with 5 steps
+    time{
+        units=YEARS
+        t=[3L 0.1 1.0]
+    }
+
+    % set options for the neutron calculation
+    neutron{
+        alphan_medium=CASE % use actual isotopics for (alpha,n) slowing down
+    }
+
+    % set options for the gamma calculation
+    gamma{
+        brem_medium=NONE   % do not include Bremsstrahlung sources
+    }
+
+    % print out maximum amount of neutron and gamma spectrum information
+    print{
+        neutron{
+            summary=yes
+            spectra=yes
+            detailed=yes
+        }
+        gamma{
+            summary=yes
+            spectra=yes
+            principal_step=LAST % determine principle emitters based on last step
+            principal_cutoff=2  % cutoff for principle emitters in percent
+        }
+    }
+
+    % save binary results file (default ft71f001) with only last step
+    save{ steps=[LAST] }
+}
+end
+
+' Generate a plot of the neutron spectrum.
+=opus
+title="PuO2 total neutron spectrum"
+typarams=nspectrum
+end
+
+' Generate a plot of the neutron spectrum.
+=opus
+title="PuO2 (alpha,n) neutron spectrum"
+typarams=anspectrum
+end
+
+' Generate a plot of the gamma spectrum.
+=opus
+title="PuO2 gamma spectrum"
+typarams=gspectrum
+end

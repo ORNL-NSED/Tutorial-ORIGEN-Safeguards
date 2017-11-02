@@ -1,0 +1,61 @@
+'===============================================================
+'=  Template for a simple decay calculation with ORIGEN        =
+'===============================================================
+'
+' NOTE: Outside ORIGEN we use the "old" SCALE comment character:
+' a single quote (') in the first column, ONLY.
+'
+'
+=origen
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % NOTE: Inside ORIGEN, we use the "new" comment character:  %
+  % a single percent (%) anywhere, rendering the rest         %
+  % of the line a comment.                                    %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+case{
+
+    % library block (load the standard ENDF/VII-based decay library)
+    lib{
+        file="end7dec"
+    }
+
+    % material block (i.e. isotopics at time=0)
+    mat{
+        units=GRAMS               %could also use MOLES
+        iso=[ Cm244=1.0 Y90=2.0 ] %array of isotope=amount
+    }
+
+    % time block (gives more flexibility than time=[] array)
+    time{
+        units=YEARS               %could also use DAYS, HOURS, MINUTES, SECONDS
+        t=[ 1 2 5 10 ]            %end-of-step times
+    }
+    
+    neutron=yes %default neutron emission calculation
+    gamma=yes   %default gamma emission calculation
+
+    save=yes    %save solution at all times
+
+} %end case <-- sometimes it's useful to annotate the end of a block
+
+% group structures for neutron and gamma calculation
+bounds{
+    neutron="xn200g47v7.1" %200-group based on library
+    gamma="xn200g47v7.1"   %47-group based on library
+}
+
+end
+
+' Generate a plot of the neutron spectrum.
+=opus
+title="neutron spectrum"
+typarams=nspectrum
+end
+
+' Generate a plot of the gamma spectrum.
+=opus
+title="gamma spectrum"
+typarams=gspectrum
+end

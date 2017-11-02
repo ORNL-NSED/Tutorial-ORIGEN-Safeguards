@@ -1,0 +1,14 @@
+*.plt
+*.out
+*.msg
+*.f71
+*.3dmap
+applet_resources
+*.dff
+*.mim
+*.mmt
+*.msm
+*.flux.txt
+*.resp6.txt
+*.tflux.txt
+*.tempdir.path

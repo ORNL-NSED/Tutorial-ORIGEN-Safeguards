@@ -1,0 +1,44 @@
+'
+' This is an ORIGAMI input for a Westinghouse 17x17 
+' isotopics calculation with axial dependence.
+'
+'
+=origami
+  %descriptive title
+  title="Westinghouse 17x17 with axial dependence"
+
+  %various options
+  options{ 
+    mtu=0.4   %total initial heavy metal in assembly
+    ft71=all  %which time points to include in ft71 file
+    %mcnp=yes  %output some mcnp input
+  }
+
+  %array of reactor libraries
+  libs=[ "w17x17" ]
+  libmap=[1] % "radial" locations use first index in libs array
+
+  %fuel compositions
+  fuelcomp{
+    uox(fuel){ enrich=4.5 }
+    %mixture 1 is 100 wt% uranium oxide at 4.5% enrichment
+    mix(1){ comps=[ fuel=100 ] }
+  }
+  compmap=[1] % "radial" compositions use mixture number
+
+  %3-axial node model with 2ft bottom/top zone and 8ft middle zone
+  meshz=[0.0    60.96    304.8   365.76 ] % cm
+   modz=[  0.7332   0.7332   0.7332     ] % g/cc
+     pz=[    0.9      1.0     0.8       ] % -
+  
+  %operating history list
+  hist[
+    %        W/gIHM        days    #xs       days
+    cycle{ power=40 burn=333.33 nlib=4 down=16.67 }
+    cycle{ power=40 burn=333.33 nlib=4 down=16.67 }
+    cycle{ power=40 burn=333.33 nlib=4 down=0 }
+  ]
+  % NOTE: nlib is the number of cross section burnup interpolations per cycle
+
+end
+
