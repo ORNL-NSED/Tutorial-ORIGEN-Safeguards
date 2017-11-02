@@ -21,7 +21,7 @@ The material in this repository is summarized as follows.
         * [`puo2.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/decay/puo2.inp) emission spectra of plutonium oxide
         * [`puc.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/decay/puc.inp)  emission spectra of plutonium carbide
         * [`template.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/decay/template.inp) a template for decay calculations with emissions
-    * `snf/` how to use ORIGEN reactor libraries for spent fuel isotopics calculation
+    * [`snf/`](https://github.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/tree/master/src/snf/) how to use ORIGEN reactor libraries for spent fuel isotopics calculation
         * [`fuel.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/fuel.inp) Basic ORIGAMI input
         * [`w17_ax.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/w17_ax.inp) ORIGAMI input with 3 axial nodes
         * [`restart_decay.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/restart_decay.inp) transfer isotopics from ORIGAMI in ORIGEN for decay
@@ -31,8 +31,8 @@ The material in this repository is summarized as follows.
         * [`origami_w17x17_bu15.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/origami_w17x17_bu15.inp) Westinghouse 17x17 Pu content with ORIGAMI at 15 GWd/MTU
         * [`origami_w17x17_bu30.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/origami_w17x17_bu30.inp) Westinghouse 17x17 Pu content with ORIGAMI at 30 GWd/MTU
         * [`origami_w17x17_bu45.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/origami_w17x17_bu45.inp) Westinghouse 17x17 Pu content with ORIGAMI at 45 GWd/MTU
-    * `shielding/`
-        * [`origen_to_mavric.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/shielding/origen_to_mavric.inp) load photon source in MAVRIC
+    * [`shielding/`](https://github.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/tree/master/src/shielding/) 
+        * [`origen_to_mavric.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/shielding/origen_to_mavric.inp) load photon source calculated by ORIGEN in MAVRIC
 
 
 ## ANS Winter 2017 Tutorials
