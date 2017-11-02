@@ -10,7 +10,6 @@ The material in this repository is summarized as follows.
 
 * [`docs/`](https://github.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/tree/master/docs/) documentation
     * [`scale62_origen.pdf`](https://github.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/blob/master/docs/scale62_origen.pdf) only the ORIGEN section from the manual
-    * [`scale62.pdf`](https://github.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/blob/master/docs/scale62.pdf) full SCALE manual
     * [`presentations/`](https://github.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/tree/master/docs/presentations/) additional presentations
         * [`SCALE_workshop_2017_Hu.pdf`](https://github.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/blob/master/docs/presentations/SCALE_workshop_2017_Hu.pdf) SCALE Users' Group 2017 presentation on ORNL applications with ORIGAMI
         * [`ORIGEN_tutorial_ANS_2017.pdf`](https://github.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/blob/master/docs/presentations/ORIGEN_tutorial_ANS_2017.pdf) presentation for ANS Winter 2017
@@ -23,14 +22,17 @@ The material in this repository is summarized as follows.
         * [`puc.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/decay/puc.inp)  emission spectra of plutonium carbide
         * [`template.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/decay/template.inp) a template for decay calculations with emissions
     * `snf/` how to use ORIGEN reactor libraries for spent fuel isotopics calculation
-        * `origami_ce14x14.inp` Combustion Engineering 14x14 using Calvert Cliffs 1 MKP109 operating history with ORIGAMI
-        * `origami_ge10x10.inp` General Electric 10x10 gamma emission with ORIGAMI
-        * `origami_w17x17.inp` Westinghouse 17x17 Pu content with ORIGAMI
-        * `arp_origen_mox.inp` MOX example with ARP+ORIGEN (ORIGAMI cannot do MOX)
-        * `snf_to_origen.inp` load spent fuel isotopics in ORIGEN for follow-on analysis
+        * [`fuel.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/fuel.inp) Basic ORIGAMI input
+        * [`w17_ax.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/w17_ax.inp) ORIGAMI input with 3 axial nodes
+        * [`restart_decay.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/restart_decay.inp) transfer isotopics from ORIGAMI in ORIGEN for decay
+        * [`restart_emit.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/restart_decay.inp) transfer isotopics from ORIGAMI in ORIGEN for emission calculations
+        * [`w17_ax.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/origami_ge10x10.inp) ORIGAMI input with 3 axial nodes        
+        * [`origami_ge10x10.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/origami_ge10x10.inp) General Electric 10x10 gamma emission with ORIGAMI
+        * [`origami_w17x17_bu15.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/origami_w17x17_bu15.inp) Westinghouse 17x17 Pu content with ORIGAMI at 15 GWd/MTU
+        * [`origami_w17x17_bu30.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/origami_w17x17_bu30.inp) Westinghouse 17x17 Pu content with ORIGAMI at 30 GWd/MTU
+        * [`origami_w17x17_bu45.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/snf/origami_w17x17_bu45.inp) Westinghouse 17x17 Pu content with ORIGAMI at 45 GWd/MTU
     * `shielding/`
-        * `origen_to_mavric.inp` load neutron source in MAVRIC
-    * `manual_examples/` examples contained in the ORIGEN manual pages
+        * [`origen_to_mavric.inp`](https://raw.githubusercontent.com/ORNL-NSED/Tutorial-ORIGEN-Safeguards/master/src/shielding/origen_to_mavric.inp) load photon source in MAVRIC
 
 
 ## ANS Winter 2017 Tutorials
